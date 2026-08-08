@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Github, Linkedin, Heart } from 'lucide-react';
+import { Instagram, Heart } from 'lucide-react';
 import Logo from '../common/Logo';
 import { siteConfig } from '../../config/site';
 
@@ -46,28 +46,6 @@ export const Footer = () => {
                 >
                   <Instagram className="w-4 h-4 text-pink-500" />
                   <span>Instagram ({siteConfig.instagramHandle})</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-slate-200 transition-colors"
-                >
-                  <Github className="w-4 h-4 text-slate-300" />
-                  <span>GitHub</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-blue-400 transition-colors"
-                >
-                  <Linkedin className="w-4 h-4 text-blue-400" />
-                  <span>LinkedIn</span>
                 </a>
               </li>
             </ul>
