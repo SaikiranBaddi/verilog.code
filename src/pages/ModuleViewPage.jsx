@@ -179,6 +179,45 @@ export const ModuleViewPage = () => {
                     return null;
                   })}
                 </div>
+
+                {/* Quick Revision Box */}
+                {activeModule.content?.revisionPoints && (
+                  <div className="my-8 p-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-950 dark:text-emerald-100">
+                    <h4 className="font-bold text-base text-emerald-600 dark:text-emerald-400 mb-3 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5 text-emerald-500" />
+                      <span>Quick Revision Checklist</span>
+                    </h4>
+                    <ul className="space-y-2 text-xs sm:text-sm">
+                      {activeModule.content.revisionPoints.map((pt, pIdx) => (
+                        <li key={pIdx} className="flex items-start gap-2">
+                          <span className="text-emerald-500 font-bold">✓</span>
+                          <span>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Continue Learning Links */}
+                {activeModule.content?.nextTopics && (
+                  <div className="my-8 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40">
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-3">
+                      Continue Learning — Recommended Next Topics:
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {activeModule.content.nextTopics.map((top, tIdx) => (
+                        <Link
+                          key={tIdx}
+                          to={top.link}
+                          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition-colors shadow-xs"
+                        >
+                          <span>{top.title}</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-blue-500" />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* In-Article Ad Placeholder */}

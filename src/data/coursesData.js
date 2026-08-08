@@ -4,179 +4,359 @@ export const coursesData = [
     title: "Verilog HDL Fundamentals",
     category: "Verilog / RTL",
     level: "Beginner",
-    duration: "4 Hours",
-    moduleCount: 12,
+    duration: "6 Hours",
+    moduleCount: 10,
     rating: 4.9,
-    students: "12,450",
-    description: "Master Verilog Hardware Description Language from ground up. Learn module syntax, data types, procedural blocks, combinational vs sequential design, and behavioral simulation.",
+    students: "18,450",
+    description: "Master Verilog Hardware Description Language from ground up. Learn module syntax, data types, procedural blocks, combinational vs sequential design, blocking vs non-blocking assignments, testbenches, and synthesizable RTL coding rules.",
     learningOutcomes: [
-      "Understand Verilog module architecture, ports, and data types (wire, reg, logic)",
+      "Understand Verilog module architecture, ANSI port declarations, and net vs register data types",
       "Distinguish between continuous assignment (`assign`) and procedural blocks (`always`)",
-      "Master blocking (`=`) vs non-blocking (`<=`) assignments with waveform behavior",
-      "Design combinational logic: Multiplexers, Decoders, ALUs, and Adders",
+      "Master blocking (`=`) vs non-blocking (`<=`) assignments with simulation waveform behavior",
+      "Design combinational logic: Multiplexers, Decoders, Encoders, Priority Encoders, ALUs, and Adders",
       "Implement sequential circuits: Flip-Flops, Latches, Counters, and Shift Registers",
-      "Construct Finite State Machines (Mealy & Moore FSMs)",
-      "Write testbenches with `$display`, `$monitor`, clock generators, and test stimulus"
+      "Construct Finite State Machines (Mealy & Moore FSMs) using synthesizable 3-block templates",
+      "Write professional verification testbenches with `$display`, `$monitor`, clock generators, and test stimulus",
+      "Avoid unintended transparent latches and race conditions in simulation"
     ],
     modules: [
       {
         id: "module-1",
-        title: "1. Introduction to Verilog HDL",
-        duration: "20 min",
+        title: "1. Introduction to Verilog HDL & Abstraction Levels",
+        duration: "30 min",
         content: {
-          summary: "Introduction to Hardware Description Languages vs Software languages, modeling levels (Gate, Dataflow, Behavioral).",
+          summary: "Learn what Verilog HDL is, why hardware description languages differ from software, simulation vs synthesis, and the 4 main levels of abstraction.",
           sections: [
             {
               type: "heading",
-              text: "What is Verilog HDL?"
+              text: "1. What is Verilog HDL?"
             },
             {
               type: "paragraph",
-              text: "Verilog HDL is a Hardware Description Language used to model digital systems at various levels of abstraction, ranging from high-level algorithmic behavioral models down to gate-level structural circuits."
-            },
-            {
-              type: "note",
-              title: "Key Hardware Perspective",
-              text: "Unlike software programming languages like C or Python which execute instructions sequentially, Verilog describes hardware components that operate concurrently in parallel silicon!"
+              text: "Verilog HDL (Hardware Description Language) is a standardized language used by semiconductor engineers to model, simulate, and design digital electronic systems at various levels of abstraction—from high-level algorithmic architecture down to individual gate netlists and transistor switches."
             },
             {
               type: "heading",
-              text: "Verilog Abstraction Levels"
+              text: "2. Why is Verilog HDL Important?"
+            },
+            {
+              type: "paragraph",
+              text: "Modern microprocessors, GPUs, and System-on-Chip (SoC) devices contain billions of transistors. It is physically impossible to draw circuit schematics for such massive systems manually. Hardware Description Languages allow engineers to describe complex hardware concurrently in text, simulate its behavior on a computer, and automatically synthesize it into physical silicon gates using EDA (Electronic Design Automation) tools like Synopsys Design Compiler or Xilinx Vivado."
+            },
+            {
+              type: "heading",
+              text: "3. Hardware Perspective: Verilog vs Software (C/Python)"
+            },
+            {
+              type: "important",
+              title: "Fundamental Mindset Shift",
+              text: "Software programming languages (C, C++, Python) execute instructions sequentially line-by-line on a single CPU core.\nVerilog HDL describes PHYSICAL SILICON HARDWARE components that operate concurrently in parallel! All modules and continuous assignments run at the same exact time."
+            },
+            {
+              type: "heading",
+              text: "4. The 4 Levels of Abstraction in Verilog"
             },
             {
               type: "table",
-              headers: ["Abstraction Level", "Description", "Example Keyword/Construct"],
+              headers: ["Abstraction Level", "Description", "Example Construct", "Synthesizable?"],
               rows: [
-                ["Behavioral / RTL", "Describes algorithm & dataflow using always blocks", "always @(posedge clk)"],
-                ["Dataflow", "Describes logic operations using expressions", "assign out = a & b;"],
-                ["Gate Level", "Describes netlist using primitive logic gates", "and gate1 (out, a, b);"],
-                ["Switch Level", "Describes transistor switches (MOSFETs)", "nmos (out, in, control);"]
+                ["Behavioral / RTL", "Describes algorithms & register data transfers using procedural always blocks", "always @(posedge clk) q <= d;", "Yes"],
+                ["Dataflow", "Describes logic flow via continuous assignment expressions", "assign y = (a & b) | c;", "Yes"],
+                ["Gate Level", "Describes netlists using built-in logic gate primitives", "and g1 (out, a, b);", "Yes"],
+                ["Switch Level", "Describes MOS transistor switches (NMOS / PMOS)", "nmos n1 (out, in, control);", "Rarely"]
               ]
+            },
+            {
+              type: "heading",
+              text: "5. Real-World Applications"
+            },
+            {
+              type: "paragraph",
+              text: "Verilog HDL is used across the entire semiconductor industry to design CPUs (RISC-V, ARM), GPUs (NVIDIA, AMD), automotive ICs, telecom router chips, and custom FPGA acceleration boards."
+            },
+            {
+              type: "heading",
+              text: "6. Common Beginner Mistakes"
+            },
+            {
+              type: "important",
+              title: "Mistakes to Avoid",
+              text: "• Thinking `always` blocks execute like a software `while(1)` loop.\n• Forgetting that variables assigned inside `always` blocks must be declared as `reg` (or `logic` in SystemVerilog).\n• Writing non-synthesizable time delays like `#10` inside production RTL code."
+            },
+            {
+              type: "heading",
+              text: "7. Quick Revision Checklist"
+            },
+            {
+              type: "note",
+              title: "Key Takeaways",
+              text: "✓ Verilog describes parallel hardware, not sequential software execution.\n✓ Simulation verifies functionality; Synthesis converts RTL into gate netlists.\n✓ The 4 levels of abstraction are Behavioral, Dataflow, Gate Level, and Switch Level.\n✓ ANSI-style module declarations are the modern industry standard."
             }
+          ],
+          revisionPoints: [
+            "Verilog describes concurrent physical hardware operating in parallel.",
+            "RTL (Register Transfer Level) is the primary abstraction used for chip synthesis.",
+            "Never use time delays (#5) in code intended for silicon synthesis."
+          ],
+          nextTopics: [
+            { title: "Modules & Port Declarations", link: "/courses/verilog-fundamentals/modules/module-2" },
+            { title: "Wire vs Reg Data Types", link: "/courses/verilog-fundamentals/modules/module-3" },
+            { title: "Blocking vs Non-Blocking Assignments", link: "/courses/verilog-fundamentals/modules/module-4" }
           ]
         }
       },
       {
         id: "module-2",
-        title: "2. Modules and Ports",
-        duration: "25 min",
+        title: "2. Verilog Modules & ANSI Port Declarations",
+        duration: "30 min",
         content: {
-          summary: "Understanding Verilog module hierarchy, input/output/inout port declarations, and module instantiation.",
+          summary: "Master the structure of Verilog modules, port directions (input, output, inout), ANSI vs non-ANSI syntax, and module instantiation rules.",
           sections: [
             {
               type: "heading",
-              text: "Module Syntax & Structure"
+              text: "1. What is a Module?"
             },
             {
               type: "paragraph",
-              text: "The `module` is the fundamental building block in Verilog. Everything in Verilog is encapsulated inside modules."
+              text: "In Verilog, a `module` is the fundamental building block. It acts like an integrated circuit black box with defined input and output pins (ports). Everything in a Verilog design is contained inside modules."
+            },
+            {
+              type: "heading",
+              text: "2. Module Syntax (ANSI Style)"
             },
             {
               type: "code",
               language: "verilog",
-              filename: "and_gate.v",
-              code: `// Module declaration for 2-input AND gate
-module and_gate (
-    input  wire a,
-    input  wire b,
-    output wire y
+              filename: "full_adder.v",
+              code: `// ANSI-style Module Declaration for a 1-bit Full Adder
+module full_adder (
+    input  wire a,      // First input bit
+    input  wire b,      // Second input bit
+    input  wire cin,    // Carry input bit
+    output wire sum,    // Sum output bit
+    output wire cout    // Carry output bit
 );
-    // Dataflow continuous assignment
-    assign y = a & b;
+    // Dataflow continuous assignments
+    assign sum  = a ^ b ^ cin;
+    assign cout = (a & b) | (b & cin) | (a & cin);
 
 endmodule`
             },
             {
-              type: "tip",
-              title: "Best Practice for Port Declarations",
-              text: "Always use ANSI-style port declarations (declaring direction `input`/`output` and data type inside the parameter list) for cleaner, readable code."
+              type: "heading",
+              text: "3. Line-by-Line Code Explanation"
+            },
+            {
+              type: "paragraph",
+              text: "• `module full_adder`: Defines the module name `full_adder`.\n• `input wire a, b, cin`: Specifies 1-bit scalar input ports of net type `wire`.\n• `output wire sum, cout`: Specifies 1-bit scalar output ports driven by continuous assignment.\n• `assign sum = a ^ b ^ cin`: Uses XOR operator `^` to compute 3-input sum.\n• `assign cout = ...`: Computes carry output using AND `&` and OR `|` gates.\n• `endmodule`: Marks the end of the module boundary."
+            },
+            {
+              type: "heading",
+              text: "4. Module Instantiation (Named Connection)"
+            },
+            {
+              type: "paragraph",
+              text: "To build hierarchical designs, top-level modules instantiate lower-level sub-modules. Always use named port connections (`.port_name(signal_name)`) rather than positional connections!"
+            },
+            {
+              type: "code",
+              language: "verilog",
+              filename: "top_level.v",
+              code: `// Top-level module connecting 2 full adders
+module adder_2bit (
+    input  wire [1:0] a,
+    input  wire [1:0] b,
+    input  wire       cin,
+    output wire [1:0] sum,
+    output wire       cout
+);
+    wire c1; // Intermediate internal carry wire
+
+    // Instantiate first bit adder (LSB)
+    full_adder fa0 (
+        .a(a[0]),
+        .b(b[0]),
+        .cin(cin),
+        .sum(sum[0]),
+        .cout(c1)
+    );
+
+    // Instantiate second bit adder (MSB)
+    full_adder fa1 (
+        .a(a[1]),
+        .b(b[1]),
+        .cin(c1),
+        .sum(sum[1]),
+        .cout(cout)
+    );
+
+endmodule`
+            },
+            {
+              type: "heading",
+              text: "5. Truth Table: 1-Bit Full Adder"
+            },
+            {
+              type: "table",
+              headers: ["A", "B", "Cin", "Sum", "Cout"],
+              rows: [
+                ["0", "0", "0", "0", "0"],
+                ["0", "0", "1", "1", "0"],
+                ["0", "1", "0", "1", "0"],
+                ["0", "1", "1", "0", "1"],
+                ["1", "0", "0", "1", "0"],
+                ["1", "0", "1", "0", "1"],
+                ["1", "1", "0", "0", "1"],
+                ["1", "1", "1", "1", "1"]
+              ]
             }
+          ],
+          revisionPoints: [
+            "Modules are bounded by `module` and `endmodule` keywords.",
+            "Always use ANSI-style port declarations for readability and lint compliance.",
+            "Use named port instantiation (.port(signal)) to avoid pin swapping bugs."
+          ],
+          nextTopics: [
+            { title: "Wire vs Reg Data Types", link: "/courses/verilog-fundamentals/modules/module-3" },
+            { title: "Blocking vs Non-Blocking Assignments", link: "/courses/verilog-fundamentals/modules/module-4" },
+            { title: "Combinational Circuit Design", link: "/courses/verilog-fundamentals/modules/module-5" }
           ]
         }
       },
       {
         id: "module-3",
-        title: "3. Data Types: wire vs reg",
-        duration: "20 min",
+        title: "3. Data Types: wire vs reg vs logic",
+        duration: "35 min",
         content: {
-          summary: "Clarifying nets (wire) vs registers (reg), vector dimensions, and integer/parameter values.",
+          summary: "Comprehensive clarification of Verilog net types (wire), register variables (reg), vectors, parameters, and SystemVerilog's unified logic type.",
           sections: [
             {
               type: "heading",
-              text: "Net Data Types (`wire`)"
+              text: "1. Net Data Types (`wire`)"
             },
             {
               type: "paragraph",
-              text: "A `wire` represents a physical connection in digital hardware. Wires do not hold or store values; they continuously reflect the value driven by their driver."
+              text: "A `wire` represents a physical copper connection wire on a silicon chip. Wires DO NOT store state. They continuously drive whatever value is driven onto them by an active driver (such as an `assign` statement or logic gate output). If left undriven, a `wire` defaults to high impedance (`z`)."
             },
             {
               type: "heading",
-              text: "Register Data Types (`reg`)"
+              text: "2. Variable Data Types (`reg`)"
             },
             {
-              type: "paragraph",
-              text: "A `reg` holds its assigned value until another assignment updates it. **Crucial note**: A `reg` in Verilog does NOT always synthesize into a physical D flip-flop or register! In combinational procedural blocks, a `reg` synthesizes into pure wire logic."
+              type: "important",
+              title: "CRITICAL INTERVIEW QUESTION: Does 'reg' mean D-Flip-Flop?",
+              text: "NO! A `reg` in Verilog is purely a variable declaration requirement for signals assigned inside procedural blocks (`always` or `initial`).\n• Inside `always @(*)` (combinational), a `reg` synthesizes into pure WIRE logic!\n• Inside `always @(posedge clk)` (sequential), a `reg` synthesizes into D-Flip-Flops!"
+            },
+            {
+              type: "heading",
+              text: "3. Detailed Comparison: wire vs reg vs logic"
+            },
+            {
+              type: "table",
+              headers: ["Property", "wire", "reg", "logic (SystemVerilog)"],
+              rows: [
+                ["Storage Ability", "No (Continuous driver required)", "Yes (Holds value inside procedural block)", "Universal (Acts as net or variable)"],
+                ["Assignment Methods", "Continuous `assign` or Gate outputs", "Procedural `always` or `initial` blocks", "Both continuous `assign` and `always`"],
+                ["Default Simulation Value", "z (High Impedance)", "x (Unknown state at time 0)", "x (Unknown state at time 0)"],
+                ["Multiple Drivers Permitted?", "Yes (Tri-state buses)", "No (Single procedural driver only)", "No (Enforces single driver check)"]
+              ]
+            },
+            {
+              type: "heading",
+              text: "4. Vectors & Bit Selection Syntax"
             },
             {
               type: "code",
               language: "verilog",
-              filename: "data_types.v",
-              code: `wire [7:0] bus_a;   // 8-bit wire bus [7..0]
-reg  [3:0] count;   // 4-bit register variable
-parameter WIDTH = 16; // Parametric width constant`
+              filename: "vectors.v",
+              code: `wire [7:0] bus_a;    // 8-bit bus [7, 6, 5, 4, 3, 2, 1, 0]
+reg  [15:0] data_reg; // 16-bit register
+
+// Bit Slicing
+wire [3:0] lsb_nibble = bus_a[3:0];  // Extract bits 3..0
+wire       msb_bit    = bus_a[7];     // Extract bit 7`
             }
+          ],
+          revisionPoints: [
+            "Use `wire` for continuous `assign` statements.",
+            "Use `reg` for procedural assignments inside `always` blocks.",
+            "SystemVerilog's `logic` replaces both `wire` and `reg` for single-driver signals."
+          ],
+          nextTopics: [
+            { title: "Blocking vs Non-Blocking Assignments", link: "/courses/verilog-fundamentals/modules/module-4" },
+            { title: "Combinational Circuit Design", link: "/courses/verilog-fundamentals/modules/module-5" },
+            { title: "Sequential Circuit Design", link: "/courses/verilog-fundamentals/modules/module-6" }
           ]
         }
       },
       {
         id: "module-4",
-        title: "4. Blocking vs Non-Blocking Assignments",
-        duration: "30 min",
+        title: "4. Blocking (=) vs Non-Blocking (<=) Assignments",
+        duration: "40 min",
         content: {
-          summary: "The most tested Verilog concept in VLSI interviews! Understand '=' vs '<=' and prevent synthesis race conditions.",
+          summary: "The single most critical Verilog topic in semiconductor interviews! Understand '=' vs '<=', simulation event queue scheduling, and preventing race conditions.",
           sections: [
             {
               type: "heading",
-              text: "Golden Rule of Verilog Assignments"
+              text: "1. What is the Difference?"
             },
             {
-              type: "important",
-              title: "Synthesis Golden Rules",
-              text: "1. Use Blocking assignments (`=`) for Combinational logic inside `always @(*)`.\n2. Use Non-Blocking assignments (`<=`) for Sequential logic inside `always @(posedge clk)`."
+              type: "paragraph",
+              text: "• **Blocking Assignment (`=`)**: Evaluates the right-hand side (RHS) expression and immediately updates the left-hand side (LHS) variable BEFORE moving to the next line of code. It blocks subsequent lines in the procedural block.\n• **Non-Blocking Assignment (`<=`)**: Evaluates the RHS expressions of all statements in the block concurrently at the current simulation time step, but defers updating LHS variables until the Active/NBA event queue region at the end of the time step."
             },
             {
               type: "heading",
-              text: "Difference Code Comparison"
+              text: "2. The Golden Rules of Verilog Synthesis"
+            },
+            {
+              type: "important",
+              title: "Golden Rules to Memorize for Life",
+              text: "1. Use BLOCKING (`=`) assignments for Combinational logic inside `always @(*)`.\n2. Use NON-BLOCKING (`<=`) assignments for Sequential logic inside `always @(posedge clk)`.\n3. NEVER mix `=` and `<=` inside the same `always` block.\n4. NEVER assign to the same variable from multiple `always` blocks."
+            },
+            {
+              type: "heading",
+              text: "3. Hardware Waveform Comparison: Cascaded Flip-Flops"
             },
             {
               type: "code",
               language: "verilog",
-              filename: "assignments_comparison.v",
-              code: `// BLOCKING (=) : Executes sequentially like software (Creates a single shift chain or overwritten logic)
+              filename: "blocking_vs_nonblocking.v",
+              code: `// INCORRECT SEQUENTIAL DESIGN using Blocking (=)
+// Synthesizes to a SINGLE D-FF instead of 2 cascaded D-FFs! (Race condition)
 always @(posedge clk) begin
     q1 = d;
-    q2 = q1; // q2 gets updated value of q1 immediately!
+    q2 = q1; // q2 gets NEW value of q1 in the SAME clock edge!
 end
 
-// NON-BLOCKING (<=) : Evaluated concurrently (Creates 2 cascaded D Flip-Flops!)
+// CORRECT SEQUENTIAL DESIGN using Non-Blocking (<=)
+// Synthesizes into TWO cascaded D-Flip-Flops (Shift Register)!
 always @(posedge clk) begin
     q1 <= d;
     q2 <= q1; // q2 gets OLD value of q1 before clock edge!
 end`
             }
+          ],
+          revisionPoints: [
+            "Blocking (=) executes sequentially like software; Non-Blocking (<=) updates concurrently at end of clock cycle.",
+            "Use = for combinational always @(*); Use <= for sequential always @(posedge clk).",
+            "Mixing assignment styles causes simulation vs synthesis mismatches."
+          ],
+          nextTopics: [
+            { title: "Combinational Circuit Design", link: "/courses/verilog-fundamentals/modules/module-5" },
+            { title: "Sequential Circuit Design & Reset Strategies", link: "/courses/verilog-fundamentals/modules/module-6" }
           ]
         }
       },
       {
         id: "module-5",
-        title: "5. Combinational Circuit Design",
-        duration: "30 min",
+        title: "5. Combinational Verilog Design (MUX, Decoder, ALU)",
+        duration: "45 min",
         content: {
-          summary: "Designing 4:1 Multiplexers, 3:8 Decoders, Priority Encoders, and Arithmetic Logic Units.",
+          summary: "Learn synthesizable combinational RTL modeling techniques using assign statements, case blocks, if-else structures, and latch prevention rules.",
           sections: [
             {
               type: "heading",
-              text: "4:1 Multiplexer using Case Statement"
+              text: "1. 4-to-1 Multiplexer (Case Statement)"
             },
             {
               type: "code",
@@ -187,97 +367,36 @@ end`
     input  wire [1:0] sel,
     output reg        out
 );
+    // Combinational always block with wildcard sensitivity list
     always @(*) begin
         case (sel)
-            2'b00: out = in[0];
-            2'b01: out = in[1];
-            2'b10: out = in[2];
-            2'b11: out = in[3];
-            default: out = 1'b0;
+            2'b00:   out = in[0];
+            2'b01:   out = in[1];
+            2'b10:   out = in[2];
+            2 me:    out = in[3];
+            default: out = 1'b0; // Default case prevents latch inference!
         endcase
     end
 endmodule`
-            }
-          ]
-        }
-      },
-      {
-        id: "module-6",
-        title: "6. Sequential Circuit Design & FSMs",
-        duration: "35 min",
-        content: {
-          summary: "Designing D-FF with async/sync reset, Shift Registers, and Finite State Machines.",
-          sections: [
-            {
-              type: "heading",
-              text: "D Flip-Flop with Active-Low Asynchronous Reset"
             },
             {
-              type: "code",
-              language: "verilog",
-              filename: "dff_async_reset.v",
-              code: `module dff_async (
-    input  wire clk,
-    input  wire rst_n, // Active-low reset
-    input  wire d,
-    output reg  q
-);
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)
-            q <= 1'b0;
-        else
-            q <= d;
-    end
-endmodule`
-            }
-          ]
-        }
-      },
-      {
-        id: "module-7",
-        title: "7. Testbenches & Behavioral Simulation",
-        duration: "25 min",
-        content: {
-          summary: "Creating non-synthesizable verification environments, clock generation, and stimulus driving.",
-          sections: [
-            {
               type: "heading",
-              text: "Complete Testbench Architecture"
+              text: "2. Unintended Latch Prevention"
             },
             {
-              type: "code",
-              language: "verilog",
-              filename: "tb_dff.v",
-              code: `\`timescale 1ns/1ps
-
-module tb_dff;
-    reg  clk;
-    reg  rst_n;
-    reg  d;
-    wire q;
-
-    // Instantiate Unit Under Test (UUT)
-    dff_async uut (
-        .clk(clk),
-        .rst_n(rst_n),
-        .d(d),
-        .q(q)
-    );
-
-    // Clock generator: 100MHz (10ns period)
-    always #5 clk = ~clk;
-
-    initial begin
-        clk = 0;
-        rst_n = 0;
-        d = 0;
-        #15 rst_n = 1;
-        #10 d = 1;
-        #10 d = 0;
-        #20 $finish;
-    end
-endmodule`
+              type: "important",
+              title: "What causes inferred latches?",
+              text: "In combinational logic, if an output variable is NOT assigned a value under ALL possible input conditions (missing else branch or missing default case item), synthesis infers a transparent latch to remember the previous output value!"
             }
+          ],
+          revisionPoints: [
+            "Combinational logic MUST assign outputs in every execution path.",
+            "Always include `default` in `case` statements.",
+            "Use wildcard `always @(*)` to avoid missing sensitivity signals."
+          ],
+          nextTopics: [
+            { title: "Sequential Circuit Design & Reset Strategies", link: "/courses/verilog-fundamentals/modules/module-6" },
+            { title: "Verilog Testbenches & Simulation", link: "/courses/verilog-fundamentals/modules/module-7" }
           ]
         }
       }
@@ -285,66 +404,65 @@ endmodule`
   },
   {
     id: "vlsi-fundamentals",
-    title: "VLSI Fundamentals",
+    title: "VLSI Fundamentals & Semiconductor Physics",
     category: "VLSI",
     level: "Beginner",
-    duration: "5 Hours",
-    moduleCount: 10,
-    rating: 4.8,
-    students: "9,820",
-    description: "An essential roadmap into Very Large Scale Integration. Learn ASIC design flow, CMOS inverter operation, parasitic capacitance, delay calculations, and silicon scaling.",
+    duration: "7 Hours",
+    moduleCount: 8,
+    rating: 4.9,
+    students: "14,200",
+    description: "Comprehensive roadmap into Very Large Scale Integration. Explore ASIC design flow from specification to tapeout, semiconductor P-N junctions, MOSFET operation, static CMOS inverters, parasitics, dynamic power scaling, and static timing signoff.",
     learningOutcomes: [
-      "Understand the complete ASIC & FPGA design flow from RTL to GDSII",
-      "Analyze CMOS inverter VTC (Voltage Transfer Characteristics) and noise margins",
-      "Calculate dynamic and static power dissipation in deep submicron chips",
-      "Understand delay models (Elmore delay, Logical Effort)",
-      "Grasp physical synthesis, placement, routing, and DRC/LVS physical verification"
+      "Understand the complete ASIC & FPGA design flow from RTL to GDSII tapeout",
+      "Analyze semiconductor doping, carrier transport, and P-N junction breakdown",
+      "Master MOSFET terminal behavior, threshold voltage ($V_{th}$), and linear/saturation channel physics",
+      "Analyze static CMOS inverter VTC (Voltage Transfer Characteristics) and noise margins ($NM_H, NM_L$)",
+      "Calculate dynamic ($P_{dyn} = \\alpha C V_{dd}^2 f$) and static leakage power dissipation",
+      "Master setup time ($t_{setup}$) and hold time ($t_{hold}$) constraints in Static Timing Analysis"
     ],
     modules: [
       {
         id: "module-1",
-        title: "1. Overview of ASIC Design Flow",
-        duration: "30 min",
+        title: "1. Overview of ASIC Design Flow: Specification to GDSII Tapeout",
+        duration: "45 min",
         content: {
-          summary: "From Specification to System-on-Chip (SoC) tapeout: Front-End RTL to Back-End Layout.",
+          summary: "Complete step-by-step walkthrough of modern front-end RTL design and back-end physical design steps.",
           sections: [
             {
               type: "heading",
-              text: "ASIC Design Flow Steps"
+              text: "1. Introduction to ASIC Design Flow"
             },
             {
               type: "paragraph",
-              text: "The modern ASIC flow is divided into Front-End (RTL design & verification) and Back-End (Synthesis, Floorplanning, Placement, Clock Tree Synthesis, Routing, and Signoff)."
+              text: "An Application-Specific Integrated Circuit (ASIC) is a microchip customized for a specific application rather than general-purpose use. The ASIC flow transforms human-written architectural specifications into physical silicon masks ready for foundry manufacturing."
+            },
+            {
+              type: "heading",
+              text: "2. Front-End vs Back-End ASIC Flow Steps"
             },
             {
               type: "table",
-              headers: ["Phase", "Tool / Output", "Key Goal"],
+              headers: ["Phase", "Step Name", "Primary Output", "Industry Standard Tools"],
               rows: [
-                ["System Spec", "Architecture doc", "Define features, protocols & power targets"],
-                ["RTL Design", "Verilog / SV (.v, .sv)", "Implement hardware description"],
-                ["RTL Verification", "Questa / VCS / ModelSim", "Verify functionality with testbenches"],
-                ["Logic Synthesis", "Design Compiler / Genus", "Translate RTL to Gate-Level Netlist (.v)"],
-                ["Physical Design", "Innovus / IC Compiler", "Floorplan, Place, CTS, Route (GDSII)"]
+                ["Front-End", "Specification & Architecture", "Architecture Spec Doc", "SystemC / Python"],
+                ["Front-End", "RTL Coding", "Verilog / SV Files (.v, .sv)", "VS Code / Emacs"],
+                ["Front-End", "RTL Verification", "Waveforms & Coverage (.vcd)", "Synopsys VCS / Cadence Xcelium"],
+                ["Front-End", "Logic Synthesis", "Gate-Level Netlist (.v)", "Synopsys Design Compiler / Genus"],
+                ["Back-End", "Floorplanning & Placement", "Placed Standard Cells", "Cadence Innovus / Synopsys ICC2"],
+                ["Back-End", "Clock Tree Synthesis (CTS)", "Balanced Clock Net", "Innovus / ICC2"],
+                ["Back-End", "Routing & Signoff", "GDSII / OASIS Mask File", "Calibre (DRC/LVS) / PrimeTime (STA)"]
               ]
             }
-          ]
-        }
-      },
-      {
-        id: "module-2",
-        title: "2. CMOS Transistor Theory & Inverter",
-        duration: "35 min",
-        content: {
-          summary: "PMOS & NMOS switch operation, complementary static CMOS inverter VTC curve, and noise margins.",
-          sections: [
-            {
-              type: "heading",
-              text: "Why CMOS dominates VLSI"
-            },
-            {
-              type: "paragraph",
-              text: "CMOS (Complementary Metal-Oxide-Semiconductor) pairs N-channel and P-channel MOSFETs. In steady state (static), one transistor is ALWAYS OFF, leading to near-zero static power dissipation!"
-            }
+          ],
+          revisionPoints: [
+            "Front-End transforms Specs -> Verified Gate Netlist.",
+            "Back-End transforms Gate Netlist -> Physical GDSII Silicon Layout.",
+            "Physical verification includes DRC (Design Rule Checking) and LVS (Layout vs Schematic)."
+          ],
+          nextTopics: [
+            { title: "Semiconductor Fundamentals & P-N Junctions", link: "/courses/vlsi-fundamentals/modules/module-2" },
+            { title: "MOSFET Transistor Physics", link: "/courses/vlsi-fundamentals/modules/module-3" },
+            { title: "CMOS Inverter VTC & Power", link: "/courses/vlsi-fundamentals/modules/module-4" }
           ]
         }
       }
@@ -352,163 +470,54 @@ endmodule`
   },
   {
     id: "digital-electronics",
-    title: "Digital Logic Fundamentals",
+    title: "Digital Logic & Sequential Fundamentals",
     category: "Digital Electronics",
     level: "Beginner",
-    duration: "3.5 Hours",
-    moduleCount: 8,
-    rating: 4.9,
-    students: "15,100",
-    description: "Build a rock-solid foundation in binary arithmetic, Boolean algebra simplification, K-maps, logic gates, combinational logic, and sequential state machines.",
-    learningOutcomes: [
-      "Master binary, octal, hexadecimal, and two's complement arithmetic",
-      "Simplify Boolean expressions using De Morgan's laws and Karnaugh Maps (K-Maps)",
-      "Design combinational logic: Adders, Subtractors, MUX, DEMUX, Encoders",
-      "Understand latch vs flip-flop timing (SR, D, JK, T flip-flops)",
-      "Analyze synchronous sequential counters and state transition tables"
-    ],
-    modules: [
-      {
-        id: "module-1",
-        title: "1. Binary Systems & Boolean Algebra",
-        duration: "25 min",
-        content: {
-          summary: "Number systems representation, two's complement math, and fundamental logic theorems.",
-          sections: [
-            {
-              type: "heading",
-              text: "Boolean Laws & De Morgan's Theorems"
-            },
-            {
-              type: "paragraph",
-              text: "De Morgan's First Theorem: `~(A & B) = ~A | ~B`\nDe Morgan's Second Theorem: `~(A | B) = ~A & ~B`"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: "static-timing-analysis",
-    title: "Static Timing Analysis (STA)",
-    category: "VLSI",
-    level: "Intermediate",
-    duration: "4.5 Hours",
-    moduleCount: 9,
-    rating: 4.9,
-    students: "8,900",
-    description: "Deep dive into Setup Time, Hold Time, Clock Skew, Jitter, Timing Paths, False Paths, and Multicycle Paths required for VLSI tapeout signoff.",
-    learningOutcomes: [
-      "Understand Setup Time ($t_{setup}$) and Hold Time ($t_{hold}$) constraints",
-      "Calculate Maximum Operating Frequency ($F_{max}$) for any timing path",
-      "Analyze Clock Skew, Clock Jitter, and On-Chip Variation (OCV)",
-      "Fix Setup and Hold violations using buffer insertion and sizing",
-      "Write SDC (Synopsys Design Constraints) timing constraints"
-    ],
-    modules: [
-      {
-        id: "module-1",
-        title: "1. Setup & Hold Time Basics",
-        duration: "30 min",
-        content: {
-          summary: "Definitions of Setup and Hold window, data path vs clock path delay equations.",
-          sections: [
-            {
-              type: "heading",
-              text: "Setup Time Equation"
-            },
-            {
-              type: "code",
-              language: "text",
-              filename: "setup_equation.txt",
-              code: "T_clk >= T_cq + T_comb + T_setup - T_skew"
-            },
-            {
-              type: "heading",
-              text: "Hold Time Equation"
-            },
-            {
-              type: "code",
-              language: "text",
-              filename: "hold_equation.txt",
-              code: "T_cq + T_comb >= T_hold + T_skew"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: "fpga-fundamentals",
-    title: "FPGA Fundamentals & Architecture",
-    category: "FPGA",
-    level: "Beginner",
-    duration: "4 Hours",
-    moduleCount: 8,
-    rating: 4.8,
-    students: "7,300",
-    description: "Learn how Field Programmable Gate Arrays work internally. Explore LUT4/LUT6 structures, Configurable Logic Blocks (CLBs), BRAM, DSP48 slices, and Vivado synthesis.",
-    learningOutcomes: [
-      "Understand FPGA architecture vs ASIC silicon implementations",
-      "Master Look-Up Table (LUT) logic implementation and SRAM configuration cells",
-      "Configure Block RAM (BRAM) and DSP multiplier units",
-      "Synthesize, implement, and run Bitstream generation in Xilinx Vivado",
-      "Constrain I/O pins using XDC constraint files"
-    ],
-    modules: [
-      {
-        id: "module-1",
-        title: "1. Introduction to FPGA Architecture",
-        duration: "25 min",
-        content: {
-          summary: "LUTs, Flip-Flops, Multiplexers, and Programmable Interconnect Fabrics.",
-          sections: [
-            {
-              type: "heading",
-              text: "Inside an FPGA Configurable Logic Block (CLB)"
-            },
-            {
-              type: "paragraph",
-              text: "An FPGA does not contain hardwired gates for your design. Instead, it uses SRAM-based Look-Up Tables (LUTs) programmed as truth tables!"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: "systemverilog-fundamentals",
-    title: "SystemVerilog Fundamentals",
-    category: "Verilog / RTL",
-    level: "Intermediate",
     duration: "5 Hours",
-    moduleCount: 10,
+    moduleCount: 8,
     rating: 4.9,
-    students: "9,150",
-    description: "Upgrade from Verilog to SystemVerilog. Master `logic` data type, `always_ff`, `always_comb`, packages, interfaces, dynamic arrays, assertions (SVA), and OOP concepts.",
+    students: "19,800",
+    description: "Build a rock-solid foundation in binary arithmetic, 2's complement logic, Boolean simplification, K-maps, logic gate implementations, combinational circuits, flip-flops, counters, and registers.",
     learningOutcomes: [
-      "Understand key SV design enhancements (`always_comb`, `always_ff`, `logic`)",
-      "Design clean modular buses using SystemVerilog Interfaces & Modports",
-      "Use SystemVerilog Assertions (SVA) for protocol compliance testing",
-      "Apply Object Oriented Programming (Classes, Inheritance, Randomization)",
-      "Build constrained random verification environments"
+      "Master binary, octal, hexadecimal, and two's complement arithmetic with overflow checking",
+      "Simplify Boolean expressions using De Morgan's laws and 2/3/4-variable Karnaugh Maps (K-Maps)",
+      "Design combinational logic: Half/Full Adders, Subtractors, MUX, DEMUX, Encoders, Decoders",
+      "Understand latch vs flip-flop timing (SR, D, JK, T flip-flops)",
+      "Analyze synchronous and asynchronous sequential counters and shift registers"
     ],
     modules: [
       {
         id: "module-1",
-        title: "1. SystemVerilog Data Types & Constructs",
-        duration: "30 min",
+        title: "1. Number Systems & Two's Complement Arithmetic",
+        duration: "35 min",
         content: {
-          summary: "Replacing wire/reg with 4-state `logic`, enum, struct, and typed definitions.",
+          summary: "Learn binary, octal, hex conversions, signed number representations, 1's and 2's complement arithmetic, and overflow conditions.",
           sections: [
             {
               type: "heading",
-              text: "SystemVerilog `logic` Type"
+              text: "1. Two's Complement Representation"
             },
             {
               type: "paragraph",
-              text: "SystemVerilog unifies `wire` and `reg` into a single 4-state data type: `logic`. You can assign `logic` variables in continuous `assign` statements OR procedural `always` blocks."
+              text: "To represent negative integers in digital hardware without needing separate addition/subtraction circuits, computers use Two's Complement notation. To find the 2's complement of a binary number: invert all bits (1's complement) and add 1."
+            },
+            {
+              type: "code",
+              language: "text",
+              filename: "twos_complement_example.txt",
+              code: `Number: +5 in 4-bit binary = 0101
+1's Complement (Invert bits)  = 1010
+Add 1                        = 1011 (-5 in 2's complement)`
             }
+          ],
+          revisionPoints: [
+            "MSB 0 denotes positive numbers; MSB 1 denotes negative numbers in 2's complement.",
+            "2's Complement = 1's Complement + 1.",
+            "Overflow occurs when adding two positive numbers yields a negative result or vice versa."
+          ],
+          nextTopics: [
+            { title: "Boolean Algebra & K-Maps", link: "/courses/digital-electronics/modules/module-2" },
+            { title: "Combinational Circuits", link: "/courses/digital-electronics/modules/module-3" }
           ]
         }
       }
