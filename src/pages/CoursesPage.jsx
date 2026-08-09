@@ -14,13 +14,15 @@ export const CoursesPage = () => {
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['All', 'VLSI', 'Verilog / RTL', 'Digital Electronics', 'FPGA'];
+  const categories = ['All', 'VLSI Foundation', 'Verilog / RTL', 'Digital Electronics', 'FPGA', 'SystemVerilog / Verification'];
   const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   const filteredCourses = useMemo(() => {
     return coursesData.filter(course => {
-      const matchCategory = selectedCategory === 'All' || course.category.toLowerCase().includes(selectedCategory.toLowerCase());
-      const matchLevel = selectedLevel === 'All' || course.level.toLowerCase() === selectedLevel.toLowerCase();
+      const matchCategory = selectedCategory === 'All' || 
+        course.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
+        (selectedCategory === 'VLSI Foundation' && (course.category.includes('VLSI') || course.category.includes('Foundation')));
+      const matchLevel = selectedLevel === 'All' || course.level.toLowerCase().includes(selectedLevel.toLowerCase());
       const matchSearch = searchQuery === '' || 
         course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
         course.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -38,16 +40,16 @@ export const CoursesPage = () => {
   return (
     <>
       <SEOHead 
-        title="All Courses — VLSI, Verilog, RTL & Digital Electronics" 
-        description="Browse free structured engineering courses on VLSI, Verilog HDL, CMOS, SystemVerilog, FPGA Architecture, and Static Timing Analysis."
+        title="All Engineering Courses — VLSI, Verilog, RTL & FPGA" 
+        description="Browse free structured engineering courses on Verilog HDL, VLSI, CMOS, SystemVerilog, FPGA Architecture, RISC-V, and Static Timing Analysis."
       />
 
       <div className="py-12 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Course Catalog</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Engineering Catalog</span>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mt-1 mb-4">
-              Explore All Engineering Courses
+              Explore All {coursesData.length} Free Courses
             </h1>
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
               Step-by-step structured courses designed for VLSI job aspirants, HDL logic designers, and semiconductor engineering students.

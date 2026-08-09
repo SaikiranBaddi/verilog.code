@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, BookOpen, FileText, HelpCircle, Code, Briefcase, ArrowRight } from 'lucide-react';
+import { Search, X, BookOpen, FileText, HelpCircle, Code, Briefcase, ArrowRight, Layers } from 'lucide-react';
 import { coursesData } from '../../data/coursesData';
 import { notesData } from '../../data/notesData';
 import { mcqsData } from '../../data/mcqsData';
@@ -36,24 +36,29 @@ export const SearchModal = ({ isOpen, onClose }) => {
     const q = query.toLowerCase();
     const matches = [];
 
-    // Search Courses
+    // Search Courses & Modules
     coursesData.forEach(c => {
       if (c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || c.category.toLowerCase().includes(q)) {
-        matches.push({ type: 'course', title: c.title, subtitle: c.category, url: `/courses/${c.id}`, icon: BookOpen });
+        matches.push({ type: 'course', title: c.title, subtitle: `${c.category} Course`, url: `/courses/${c.id}`, icon: BookOpen });
       }
+      c.modules?.forEach(m => {
+        if (m.title.toLowerCase().includes(q) || m.content?.summary?.toLowerCase().includes(q)) {
+          matches.push({ type: 'module', title: m.title, subtitle: `Module in ${c.title}`, url: `/courses/${c.id}/modules/${m.id}`, icon: Layers });
+        }
+      });
     });
 
     // Search Notes
     notesData.forEach(n => {
       if (n.title.toLowerCase().includes(q) || n.summary.toLowerCase().includes(q) || n.category.toLowerCase().includes(q)) {
-        matches.push({ type: 'note', title: n.title, subtitle: n.topic, url: `/notes`, icon: FileText });
+        matches.push({ type: 'note', title: n.title, subtitle: `${n.topic} Technical Note`, url: `/notes`, icon: FileText });
       }
     });
 
     // Search MCQs
-    mcqsData.forEach((m, idx) => {
+    mcqsData.forEach((m) => {
       if (m.question.toLowerCase().includes(q) || m.category.toLowerCase().includes(q)) {
-        matches.push({ type: 'mcq', title: m.question, subtitle: `${m.category} MCQ`, url: `/mcqs`, icon: HelpCircle });
+        matches.push({ type: 'mcq', title: m.question, subtitle: `${m.category} MCQ (${m.difficulty})`, url: `/mcqs`, icon: HelpCircle });
       }
     });
 
@@ -67,11 +72,11 @@ export const SearchModal = ({ isOpen, onClose }) => {
     // Search Projects
     projectsData.forEach(p => {
       if (p.title.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)) {
-        matches.push({ type: 'project', title: p.title, subtitle: p.category, url: `/projects/${p.id}`, icon: Code });
+        matches.push({ type: 'project', title: p.title, subtitle: `${p.category} Project (${p.difficulty})`, url: `/projects/${p.id}`, icon: Code });
       }
     });
 
-    setResults(matches.slice(0, 8));
+    setResults(matches.slice(0, 10));
   }, [query]);
 
   if (!isOpen) return null;
@@ -92,7 +97,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search courses, notes, MCQs, interview questions, projects..."
+            placeholder="Search courses, modules, notes, MCQs, interview questions, projects..."
             className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none text-base font-medium"
           />
           {query && (
