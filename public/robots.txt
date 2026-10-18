@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://verilogcode.saikiranrbaddi.workers.dev/sitemap.xml
+Sitemap: https://verilogcode.saikiranrbaddi.workers.dev/sitemap.txt
